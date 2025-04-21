@@ -63,6 +63,14 @@ sudo cp /home/ubuntu/tomcat-users.xml /home/ubuntu/apache-tomcat-8.5.96/conf/
 # Replace Tomcat systemd service file
 sudo cp /home/ubuntu/tomcat.service /etc/systemd/system/tomcat.service
 
+CONTEXT_FILE="/home/ubuntu/apache-tomcat-8.5.96/webapps/manager/META-INF/context.xml"
+
+if [ -f "$CONTEXT_FILE" ]; then
+    echo "🔧 Updating $CONTEXT_FILE to allow all IPs..."
+    sudo sed -i 's|<Context.*>|<Context antiResourceLocking="false" privileged="true">\n  <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow=".*" />\n</Context>|g' "$CONTEXT_FILE"
+else
+    echo "⚠ context.xml not found. Skipping IP allow change."
+fi
 # Start and enable Tomcat
 sudo systemctl daemon-reload
 sudo systemctl start tomcat
