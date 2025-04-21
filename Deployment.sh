@@ -70,18 +70,5 @@ sudo systemctl enable tomcat
 
 echo "Tomcat deployed and running successfully!"
 
-sudo systemctl stop tomcat
-
-CONTEXT_FILE="/home/ubuntu/apache-tomcat-8.5.96/webapps/manager/META-INF/context.xml"
-
-if [ -f "$CONTEXT_FILE" ]; then
-    echo "🔧 Updating $CONTEXT_FILE to allow all IPs..."
-    sudo sed -i 's|<Context.*>|<Context antiResourceLocking="false" privileged="true">\n  <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow=".*" />\n</Context>|g' "$CONTEXT_FILE"
-else
-    echo "⚠ context.xml not found. Skipping IP allow change."
-fi
-
-sudo systemctl start tomcat
-
 sh /home/ubuntu/java-deployment.sh
 
