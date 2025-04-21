@@ -63,6 +63,15 @@ sudo cp /home/ubuntu/tomcat-users.xml /home/ubuntu/apache-tomcat-8.5.96/conf/
 # Replace Tomcat systemd service file
 sudo cp /home/ubuntu/tomcat.service /etc/systemd/system/tomcat.service
 
+# Start and enable Tomcat
+sudo systemctl daemon-reload
+sudo systemctl start tomcat
+sudo systemctl enable tomcat
+
+echo "Tomcat deployed and running successfully!"
+
+sudo systemctl stop tomcat
+
 CONTEXT_FILE="/home/ubuntu/apache-tomcat-8.5.96/webapps/manager/META-INF/context.xml"
 
 if [ -f "$CONTEXT_FILE" ]; then
@@ -71,12 +80,8 @@ if [ -f "$CONTEXT_FILE" ]; then
 else
     echo "⚠ context.xml not found. Skipping IP allow change."
 fi
-# Start and enable Tomcat
-sudo systemctl daemon-reload
-sudo systemctl start tomcat
-sudo systemctl enable tomcat
 
-echo "Tomcat deployed and running successfully!"
+sudo systemctl start tomcat
 
 sh /home/ubuntu/java-deployment.sh
 
