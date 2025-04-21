@@ -1,5 +1,6 @@
 #!/bin/bash
-
+set -o
+set -x
 # Show current directory
 pwd 
 
@@ -8,7 +9,8 @@ cd /home/ubuntu/java-tomcat-maven-example && mvn clean install
 
 # Stop Tomcat (if it's running)
 sudo systemctl stop tomcat
-
+sudo rm -rf /home/ubuntu/apache-tomcat-8.5.96/webapps/manager/META-INF/context.xml
+sudo cp /home/ubuntu/context.xml /home/ubuntu/apache-tomcat-8.5.96/webapps/manager/META-INF/context.xml
 sudo rm -rf  /home/ubuntu/apache-tomcat-8.5.96/webapps/java-tomcat-maven-example.war
 sudo rm -rf  /home/ubuntu/apache-tomcat-8.5.96/webapps/java-tomcat-maven-example
 
